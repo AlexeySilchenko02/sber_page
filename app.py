@@ -10,5 +10,9 @@ def home():
 def string_sum():
     return render_template('string_sum.html')
 
+@app.route('/stat-weekend')
+def stat_weekend():
+    return render_template('stat_weekend.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
