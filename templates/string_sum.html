@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Калькулятор эпизодов</title>
+  <style>
+    body { 
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
+      padding: 24px; 
+      max-width: 720px; 
+      margin: 0 auto; 
+    }
+    .card { 
+      border: 1px solid #e5e7eb; 
+      border-radius: 12px; 
+      padding: 20px; 
+    }
+    .row { 
+      display: flex; 
+      gap: 8px; 
+    }
+    input[type="text"] { 
+      flex: 1; 
+      padding: 10px 12px; 
+      border: 1px solid #cbd5e1; 
+      border-radius: 10px; 
+      font-size: 16px; 
+    }
+    button { 
+      padding: 10px 16px; 
+      border: 0; 
+      border-radius: 10px; 
+      background: #111827; 
+      color: #fff; 
+      font-weight: 600; 
+      cursor: pointer; 
+    }
+    .help { 
+      color: #6b7280; 
+      margin-top: 8px; 
+      font-size: 14px; 
+    }
+    .error { 
+      color: #b91c1c; 
+      margin-top: 12px; 
+    }
+    .result { 
+      margin-top: 16px; 
+      padding: 12px; 
+      background: #f9fafb; 
+      border: 1px solid #e5e7eb; 
+      border-radius: 10px; 
+    }
+    .kv { 
+      display: grid; 
+      grid-template-columns: 1fr auto; 
+      gap: 6px 12px; 
+    }
+    .kv div { 
+      padding: 4px 0; 
+    }
+    .muted { 
+      color: #6b7280; 
+      font-size: 14px; 
+    }
+  </style>
+</head>
+<body>
+  <h1>Калькулятор эпизодов</h1>
+  <div class="card">
+    <form id="sumForm">
+      <div class="row">
+        <input type="text" id="expr" placeholder='Например: 26+21+21+24+25+24+26' />
+        <button type="submit">Посчитать</button>
+      </div>
+      <div class="help">Разрешены только целые числа и знак «+». Пробелы допускаются.</div>
+    </form>
+     
+    <div id="error" class="error" style="display:none;"></div>
+    <div id="result" class="result" style="display:none;">
+      <div class="muted">Выражение:</div>
+      <div class="kv">
+        <div>Количество эпизодов:</div><div><strong id="count"></strong></div>
+        <div>Сумма:</div><div><strong id="sum"></strong></div>
+      </div>
+    </div>
+  </div>
+   
+  <script>
+    document.getElementById('sumForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+       
+      const expr = document.getElementById('expr').value.trim();
+      const errorDiv = document.getElementById('error');
+      const resultDiv = document.getElementById('result');
+       
+      const pattern = /^\s*\d+\s*(\+\s*\d+\s*)*$/;
+       
+      errorDiv.style.display = 'none';
+      resultDiv.style.display = 'none';
+       
+      if (!pattern.test(expr)) {
+        errorDiv.textContent = 'Неверный формат. Введите строку вида: 26+21+21+24';
+        errorDiv.style.display = 'block';
+        return;
+      }
+       
+      const nums = expr.split('+').map(p => parseInt(p.trim(), 10));
+      const total = nums.reduce((a, b) => a + b, 0);
+       
+      document.getElementById('count').textContent = nums.length;
+      document.getElementById('sum').textContent = total;
+       
+      resultDiv.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
