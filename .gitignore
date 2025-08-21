@@ -1,0 +1,7 @@
+venv/
+.env
+*.db
+# Игнорировать системные файлы macOS
+.DS_Store
+__pycache__/
+*.pyc
